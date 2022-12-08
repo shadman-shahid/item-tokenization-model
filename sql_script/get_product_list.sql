@@ -72,7 +72,7 @@ SELECT	id.Invoiceno
 		, i.PrepareDate
 		, i.WeekEndFlag 
 		, i.DayTimeFlag 
---INTO #Invoice_Sales_2
+INTO #Invoice_Sales_2
 FROM InvoiceDetails id
 INNER JOIN #ValidInvoiceNo i ON i.InvoiceNo = id.Invoiceno 
 INNER JOIN Product p ON p.ProductCode = id.ProductCode 
