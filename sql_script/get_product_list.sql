@@ -2,7 +2,7 @@ DROP TABLE #ValidCustomer
 DROP TABLE #ValidInvoiceNo
 DROP TABLE #ExcInv
 DROP TABLE #ValidInv
-
+DROP TABLE #Invoice_sales_2
 SELECT COUNT(*) FROM #ValidCustomer
 
 SELECT 	i.CustomerCode
@@ -14,18 +14,30 @@ WHERE LoyaltySettingsId = 1
 GROUP BY i.CustomerCode 
 HAVING COUNT(DISTINCT i.InvoiceNo) > 7
 
+SELECT *
+FROM #ExcInv
+WHERE InvoiceDate >= '2015-01-01'
 
-SELECT 	DISTINCT Invoiceno
+SELECT 	DISTINCT id.Invoiceno, i.InvoiceDate 
 INTO #ExcInv
 FROM InvoiceDetails id
-INNER JOIN Product p ON id.ProductCode = p.ProductCode 
-WHERE p.PackSize != 'EA' OR id.SalesQTY > 20
+INNER JOIN Product p ON id.ProductCode = p.ProductCode
+INNER JOIN Invoice i ON i.InvoiceNo = id.Invoiceno 
+WHERE (i.InvoiceDate < '2015-01-01') OR (p.PackSize != 'EA' OR id.SalesQTY > 20) 
 ORDER BY Invoiceno 
 
 SELECT COUNT(DISTINCT Invoiceno)
 FROM #ExcInv
 
+SELECT 	vi.Invoiceno
+		, i.InvoiceDate  
+FROM #ValidInv vi
+INNER JOIN Invoice i ON vi.Invoiceno = i.InvoiceNo 
+WHERE InvoiceDate < 2015
+
 SELECT 	DISTINCT id.Invoiceno
+--		, e.Invoiceno 
+--		, InvoiceDate
 INTO #ValidInv
 FROM InvoiceDetails id 
 LEFT JOIN #ExcInv e ON e.Invoiceno = id.Invoiceno 
@@ -80,12 +92,15 @@ WHERE  	p.PackSize = 'EA'
 		AND (id.SalesQTY >= 1 AND SalesQTY < 20)
 		
 SELECT 	Invoiceno
-		, COUNT(ProductCode)
-		INTO 
-FROM #Invoice_Sales
+		, COUNT(DISTINCT ProductCode) 
+FROM #Invoice_Sales_2
 GROUP BY Invoiceno 
-ORDER BY Invoiceno
 
 SELECT *
-FROM #Invoice_Sales
-	ORDER BY Invoiceno	
+FROM #Invoice_Sales_2
+ORDER BY Invoiceno
+	
+
+SELECT DISTINCT * 
+FROM Product p 
+	
