@@ -1,9 +1,5 @@
-/input/
+/input/invoice_data_2.csv
 /venv/
-/models/saved_model.model
-/models/saved_model.model.dv.vectors.npy
-/models/train-by-code
-/models/train-by-code.dv.vectors.npy
-/models/train-by-name
-/models/train-by-name.dv.vectors.npy
-/.idea
+/models/*
+/data/instacart/*
+/data/instacart.zip
