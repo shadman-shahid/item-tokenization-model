@@ -1,15 +1,16 @@
-requests==2.24.0
+requests==2.28.1
 gensim
 holidays
 matplotlib
 seaborn
+pyodbc
 tensorboardX>=2.1
 ray==1.0.1
 torch>=1.7.1
-numpy>=1.16.0
+numpy==1.23.5
 tqdm>=4.45.0
 pandas>=1.0.3
-numpy~=1.18.0
+# numpy~=1.18.0
 mock==4.0.1
 scipy>=1.4
 scikit-learn>=0.22
@@ -24,3 +25,4 @@ py7zr~=0.6
 rstcheck~=3.3.1
 munch==2.5.0
 sphinx_markdown_tables~=0.0.14
+urllib3==1.26.0

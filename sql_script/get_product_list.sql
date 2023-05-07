@@ -5,8 +5,6 @@ DROP TABLE #ValidInv
 DROP TABLE #invoice_data
 DROP TABLE #Valid_Invoice
 
-
-
 -- Updated invoice table with reorder rank
 -- Create reorder column
 SELECT 	DISTINCT i.PrepareDate

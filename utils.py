@@ -8,6 +8,54 @@ import pandas as pd
 import numpy as np
 import os
 import itertools
+import sys
+import time
+import pyodbc
+
+# 'asdf@1234'
+DB_NAME = "EPS_2"
+SERVER = "localhost"
+UID = "sa"
+PASSWORD = "dataport"
+
+def connect_to_db():
+    """
+
+    :return: conn --> Connection settings
+    """
+    timee = time.time()
+    odbc_driver = '{ODBC Driver 17 for SQL Server}'
+    native_driver = '{SQL Server Native Client 11.0}'
+
+    driver = native_driver
+    if sys.platform == 'linux':
+        driver = odbc_driver
+    else:
+        driver = native_driver
+
+    connection_settings = f"""Driver={driver};
+    Server={SERVER};
+    Database={DB_NAME};
+    """
+    if sys.platform[:3] == "win":
+        connection_settings += f"""Trusted_Connection=yes;"""
+    else:
+        print(f"User ID '{UID}' and password '{PASSWORD}' for login from linux.")
+        connection_settings += f"""Trusted_Connection=no;
+        UID={UID};
+        PWD={PASSWORD};"""
+    conn = pyodbc.connect(connection_settings)
+    return conn
+
+
+def read_sql(sql_script, conn):
+    """
+    :param sql_script:
+    :param conn:
+    :return: table -->
+    """
+    table = pd.read_sql(sql_script, conn)
+    return table
 
 
 class ExtractCalendar:
