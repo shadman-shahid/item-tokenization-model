@@ -125,6 +125,27 @@ class Item2Vec(Word2Vec):
         self.build_vocab(corpus_iterable=self.corpus_iterable,
                          trim_rule=trim_rule)
 
+    @classmethod
+    def from_corpus_iterable(cls, corpus_iterable, **kwargs):
+        instance = cls.__new__(cls)
+        instance.corpus_iterable = corpus_iterable
+        instance._init_from_corpus_iterable(**kwargs)
+        return instance
+
+    def _init_from_corpus_iterable(self, window=5, vector_size=100, workers=3, min_count=20, epochs=20,
+                                   trim_rule=None, callbacks=(), **kwargs):
+        self.epochs = epochs
+        super(Item2Vec, self).__init__(
+            vector_size=vector_size,
+            window=window,
+            epochs=epochs,
+            workers=workers,
+            min_count=min_count,
+            **kwargs
+        )
+        self._check_corpus_sanity(corpus_iterable=self.corpus_iterable, passes=(self.epochs + 1))
+        self.build_vocab(corpus_iterable=self.corpus_iterable, trim_rule=trim_rule)
+
     def load_data(self, path):
         if sys.platform == 'linux':
             path_sep = '/'
@@ -187,7 +208,8 @@ class Item2Vec(Word2Vec):
 
     def code2name(self, id):
         product_code2name = \
-            self.data['invoice_details'][['ProductCode', 'ProductName']].drop_duplicates().set_index('ProductCode').to_dict()[
+            self.data['invoice_details'][['ProductCode', 'ProductName']].drop_duplicates().set_index(
+                'ProductCode').to_dict()[
                 'ProductName']
         return product_code2name[id]
 
