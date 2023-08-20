@@ -96,7 +96,7 @@ def to_readable(v):
 
 class Item2Vec(Word2Vec):
     def __init__(self,
-                 data_path=os.path.join(os.getcwd(), 'data', 'shwapno'),
+                 data_path,
                  window=5,
                  vector_size=100,
                  workers=3,

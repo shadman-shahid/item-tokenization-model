@@ -1,0 +1,14 @@
+sed -i '1i value1,value2,value3' file.csv
+
+## Just add a column headers at the beginning of the invoice file
+sed -i '1i CustomerCode,InvoiceNo,InvoicePeriod,InvoiceDate,InvoiceTime,NSI,DepotCode,Cash1Card0,ProductCode,ProductNSI,SalesQTY' ../data/shwapno_dataset_1/invoice_202208_202307.csv
+
+
+## Check the 43rd line of the customer csv file
+sed -n '43p' ../data/shwapno_dataset_1/customers_202208_202307.csv
+
+## Replace double commas in the csv with single commas:
+sed -i 's/,,/,/g' ../data/shwapno_dataset_1/customers_202208_202307.csv
+
+Product Columns: ProductCode, ProductName, SubCategoryID, SubCategory, CategoryID, Category, UnitPrice, VATID, VAT
+Customer Columns: CustomerCode, CustomerName, DepotCode, AvgNSI, InvCnt
